@@ -8,9 +8,12 @@ function RegisterScreen({navigation}) {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
+const API_URL = 'https://pharmaplus-gules.vercel.app/api/auth/register'
+
+
   const handleRegister = async () => {
     try {
-      const response = await axios.post('http://192.168.137.143:3000/api/auth/register', {
+      const response = await axios.post(API_URL, {
         username,
         email,
         password

@@ -2,6 +2,9 @@ import React, { useState } from 'react';
 import { View, Text, StyleSheet, TextInput, TouchableOpacity, Alert } from 'react-native';
 import axios from 'axios'
 
+const API_URL = 'https://pharmaplus-gules.vercel.app/api/medicamentos'
+
+
 function CadastrarScreen({ navigation }) {
   const [nome, setNome] = useState('');
   const [dosagem, setDosagem] = useState('');
@@ -12,7 +15,7 @@ function CadastrarScreen({ navigation }) {
 
   const handleCadastrar = async () => {
     try {
-        const response = await axios.post('http://192.168.137.143:3000/api/medicamentos', {
+        const response = await axios.post(API_URL, {
             nome,
             dosagem,
             fabricante,

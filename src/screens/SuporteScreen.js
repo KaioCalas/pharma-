@@ -2,6 +2,9 @@ import React, { useState } from 'react';
 import { View, Text, TextInput, StyleSheet, TouchableOpacity, Alert, ScrollView } from 'react-native';
 import axios from 'axios';
 
+const API_URL = 'https://pharmaplus-gules.vercel.app/api/suporte'
+
+
 const SuporteScreen = () => {
   const [nome, setNome] = useState('');
   const [email, setEmail] = useState('');
@@ -30,7 +33,7 @@ const SuporteScreen = () => {
       const suporteData = { nome, email, mensagem };
       console.log('Enviando dados de suporte:', suporteData);
 
-      await axios.post('http://192.168.137.143:3000/api/suporte', suporteData);
+      await axios.post(API_URL, suporteData);
       Alert.alert('Sucesso', 'Sua mensagem de suporte foi enviada com sucesso!');
       setNome('');
       setEmail('');

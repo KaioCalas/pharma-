@@ -4,6 +4,9 @@ import axios from 'axios';
 import { useFocusEffect } from '@react-navigation/native';
 import { Picker } from '@react-native-picker/picker';
 
+const API_URL = 'https://pharmaplus-gules.vercel.app/api/medicamentos'
+
+
 const RelatorioScreen = () => {
   const [medicamentos, setMedicamentos] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -15,7 +18,7 @@ const RelatorioScreen = () => {
       const fetchMedicamentos = async () => {
         try {
           setLoading(true);
-          const response = await axios.get('http://192.168.137.143:3000/api/medicamentos');
+          const response = await axios.get(API_URL);
           setMedicamentos(response.data);
           
           const fabricantesUnicos = [...new Set(response.data.map(item => item.fabricante))];

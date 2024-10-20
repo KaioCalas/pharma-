@@ -3,13 +3,16 @@ import { Text, View, StyleSheet, TextInput, TouchableOpacity, Alert  } from 'rea
 import * as Animatable from 'react-native-animatable'
 import axios from 'axios';
 
+const API_URL = 'https://pharmaplus-gules.vercel.app/api/auth/login'
+
+
 function LoginScreen({navigation}) {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
 
   const handleLogin = async () => {
     try {
-      const response = await axios.post('http://192.168.137.143:3000/api/auth/login', {
+      const response = await axios.post(API_URL, {
         username,
         password
       });

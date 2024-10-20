@@ -3,6 +3,9 @@ import { View, Text, StyleSheet, TextInput, TouchableOpacity, Alert } from 'reac
 import { TextInputMask } from 'react-native-masked-text';
 import axios from 'axios';
 
+const API_URL = 'https://pharmaplus-gules.vercel.app/api/medicamentos'
+
+
 function EditarScreen({ route, navigation }) {
   const { item } = route.params;
   const [nome, setNome] = useState(item.nome);
@@ -16,7 +19,7 @@ function EditarScreen({ route, navigation }) {
     try {
       const formattedDate = new Date(dataValidade).toISOString().split('T')[0];
 
-      const response = await axios.put(`http://192.168.137.143:3000/api/medicamentos/${item.id}`, {
+      const response = await axios.put(`${API_URL}/${item.id}`, {
         nome,
         dosagem,
         fabricante,
@@ -43,7 +46,7 @@ function EditarScreen({ route, navigation }) {
           style: 'destructive',
           onPress: async () => {
             try {
-              await axios.delete(`http://192.168.137.143:3000/api/medicamentos/${item.id}`);
+              await axios.delete(`${API_URL}/${item.id}`);
               Alert.alert('Sucesso', 'Medicamento removido com sucesso');
               navigation.goBack();
             } catch (error) {
