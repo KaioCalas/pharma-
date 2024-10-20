@@ -1,109 +1,118 @@
-import React, { useState } from 'react';
-import { Text, View, Button, TextInput, StyleSheet, Alert } from 'react-native';
+import React, { useState } from "react";
+import { Text, View, StyleSheet, TextInput, TouchableOpacity, Alert  } from 'react-native'
+import * as Animatable from 'react-native-animatable'
+import axios from 'axios';
 
-function LoginScreen({ navigation }) {
-  const [name, setName] = useState('');
+function LoginScreen({navigation}) {
+  const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
-  const [erros, setErros] = useState({});
 
-  const validateForm = () => {
-    let formErros = {};
+  const handleLogin = async () => {
+    try {
+      const response = await axios.post('http://192.168.137.143:3000/api/auth/login', {
+        username,
+        password
+      });
 
-    if (!name) formErros.name = 'O nome é obrigatório';
-
-    if (!password) formErros.password = 'A senha é obrigatória';
-
-    setErros(formErros);
-
-    return Object.keys(formErros).length === 0;
-  };
-
-  const handleSubmit = () => {
-    if (validateForm()) {
-      Alert.alert('Sucesso', 'Formulário enviado com sucesso');
+      Alert.alert('Sucesso', 'Login Realizado com sucesso!')
+      navigation.navigate('TelaInicial')
+    } catch (error){
+      console.error(error);
+      Alert.alert('Erro', 'Falha ao relizar login.')
     }
-  };
+  }
 
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>PHARMA+</Text>
+      <Animatable.View animation="fadeInLeft" delay={500} style={styles.containerHeader}>
+        <Text style={styles.message}>Bem vindo(a)</Text>
+      </Animatable.View>
 
-      <Text style={styles.label}>Nome: </Text>
-      <TextInput
-        style={styles.input}
-        placeholder="Digite seu nome"
-        value={name}
-        onChangeText={text => setName(text)}
-      />
-      {erros.name && <Text style={styles.error}>{erros.name}</Text>}
+      <Animatable.View animation="fadeInUp" style={styles.containerForm}>
+        <Text style={styles.title}>Usuário</Text>
+        <TextInput
+          style={styles.input}
+          placeholder="Digite seu usuário"
+          value={username}
+          onChangeText={setUsername}
+        />
 
-      <Text style={styles.label}>Senha:</Text>
-      <TextInput
-        style={styles.input}
-        placeholder="Digite sua senha"
-        value={password}
-        onChangeText={text => setPassword(text)} // Corrigido para setPassword
-        secureTextEntry={true} // Oculta o texto da senha
-      />
-      {erros.password && <Text style={styles.error}>{erros.password}</Text>}
+        <Text style={styles.title}>Senha</Text>
+        <TextInput 
+          style={styles.input}
+          placeholder="Digite sua senha"
+          value={password}
+          secureTextEntry
+          onChangeText={setPassword}
+        />
 
-      <Text style={styles.label}>
-        Não tem conta?{' '}
-        <Text style={styles.hp_link} onPress={() => navigation.navigate('Register')}>
-          Clique aqui!
-        </Text>
-      </Text>
+        <TouchableOpacity style={styles.button} onPress={handleLogin}>
+          <Text style={styles.buttonText}>Acessar</Text>
+        </TouchableOpacity>
 
-      <Button title="Enviar" onPress={handleSubmit} />
+        <TouchableOpacity style={styles.buttonRegister} onPress={() => navigation.navigate('Register')}>
+          <Text style={styles.registerText}>Não possui uma conta? Cadastre-se</Text>
+        </TouchableOpacity>
+      </Animatable.View>
+
     </View>
-  );
+  )
 }
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: 'center',
-    padding: 20,
+    backgroundColor: '#fff',
+  },
+  containerHeader: {
+    marginTop: '14%',
+    marginBottom: '8%',
+    paddingStart: '5%',
+  },
+  message: {
+    fontSize: 28,
+    fontWeight: 'bold'
+  },
+  containerForm: {
     backgroundColor: '#048581',
+    flex: 1,
+    borderTopLeftRadius: 25,
+    borderTopRightRadius: 25,
+    paddingStart: '5%',
+    paddingEnd: '5%',
   },
   title: {
-    fontSize: 28,
-    fontWeight: 'bold',
     color: '#fff',
-    marginBottom: 24,
-    textAlign: 'center',
-  },
-  label: {
-    color: '#fff',
-    fontSize: 16,
-    marginBottom: 8,
+    fontSize: 20,
+    marginTop: 28,
   },
   input: {
-    height: 50,
-    borderColor: '#ddd',
-    borderWidth: 1,
-    backgroundColor: '#fff',
-    paddingHorizontal: 16,
-    borderRadius: 10,
+    borderBottomWidth: 1,
+    borderColor: '#fff',
+    height: 40,
     marginBottom: 12,
     fontSize: 16,
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.1,
-    shadowRadius: 4,
-    elevation: 2, // Sombras no Android
   },
-  inputError: {
-    borderColor: 'red',
+  button: {
+    backgroundColor: '#FFF',
+    width: '100%',
+    borderRadius: 4,
+    paddingVertical: 8,
+    marginTop: 14,
+    justifyContent: 'center',
+    alignItems: 'center'
   },
-  error: {
-    color: 'red',
-    marginBottom: 8,
+  buttonText: {
+    fontSize: 18,
+    fontWeight: 'bold'
   },
-  hp_link: {
-    color: 'e3e3e3',
-    textDecorationLine: 'underline',
+  buttonRegister: {
+    marginTop: 14,
+    alignSelf: 'center'
   },
-});
+  registerText: {
+    color: '#a1a1a1'
+  }
+})
 
-export default LoginScreen;
+export default LoginScreen

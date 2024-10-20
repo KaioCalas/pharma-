@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "appTeste",
-    "slug": "appTeste",
+    "name": "PharmaPlus",
+    "slug": "PharmaPlus",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
@@ -18,10 +18,16 @@
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
-      }
+      },
+      "package": "com.kaiocalas.PharmaPlus"
     },
     "web": {
       "favicon": "./assets/favicon.png"
+    },
+    "extra": {
+      "eas": {
+        "projectId": "9dd1ed06-396c-4439-a5d5-9470a004a9ba"
+      }
     }
   }
 }
